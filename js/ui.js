@@ -1,6 +1,7 @@
 // Small DOM helpers shared by screens.
 import { setLanguage } from "./progress.js";
 import { BRUNO_SVG } from "./bruno.js";
+import { icon, flag } from "./icons.js";
 
 export function h(tag, attrs = {}, ...children) {
   const el = document.createElement(tag);
@@ -19,6 +20,33 @@ export function h(tag, attrs = {}, ...children) {
 
 export function screen(...children) {
   return h("section", { class: "screen" }, ...children);
+}
+
+// A bundled picture of an animal or zone. Falls back to the emoji if the file can't load.
+export function art(kind, item, className = "art") {
+  const img = h("img", {
+    class: className,
+    src: `art/${kind}/${item.id}.webp`,
+    alt: "",
+    width: "256",
+    height: "256",
+    decoding: "async",
+    draggable: "false",
+  });
+  img.addEventListener(
+    "error",
+    () => img.replaceWith(h("span", { class: `${className} art-fallback`, "aria-hidden": "true" }, item.emoji)),
+    { once: true },
+  );
+  return img;
+}
+
+export const animalArt = (animal, className) => art("animals", animal, className);
+export const zoneArt = (zone, className) => art("zones", zone, className);
+
+export function starsRow(n, max = 3) {
+  return h("span", { class: "stars-row", "aria-hidden": "true" },
+    Array.from({ length: max }, (_, i) => icon(i < n ? "star" : "starEmpty")));
 }
 
 // Turns trusted SVG markup (our own drawings) into an element.
@@ -58,7 +86,7 @@ export function bruno(ctx, text, { speakNow = true } = {}) {
 }
 
 export function backButton(ctx, to, params = {}) {
-  return h("button", { "aria-label": ctx.t("back"), onclick: () => ctx.navigate(to, params) }, "⬅️");
+  return h("button", { "aria-label": ctx.t("back"), onclick: () => ctx.navigate(to, params) }, icon("back"));
 }
 
 export function languageToggle(ctx, { onChange } = {}) {
@@ -75,10 +103,11 @@ export function languageToggle(ctx, { onChange } = {}) {
           onChange?.();
         },
       },
+      flag(lang),
       label,
     );
   return h("div", { class: "row", role: "group", "aria-label": ctx.t("language") },
-    option("en", "🇺🇸 English"), option("es", "🇪🇸 Español"));
+    option("en", "English"), option("es", "Español"));
 }
 
 export function stickerCard(ctx, animal, earned) {
@@ -86,7 +115,7 @@ export function stickerCard(ctx, animal, earned) {
   return h(
     "div",
     { class: earned ? "sticker" : "sticker unknown", role: "img", "aria-label": earned ? name : ctx.t("unknownSticker") },
-    h("span", { class: "emoji", "aria-hidden": "true" }, animal.emoji),
+    animalArt(animal),
     h("span", { class: "label", "aria-hidden": "true" }, earned ? name : "?"),
   );
 }

@@ -15,7 +15,7 @@ export const STRINGS = {
   brunoRepeat: { en: "Bruno, say it again", es: "Bruno, repítelo" },
   mapTitle: { en: "Zoo Map", es: "Mapa del zoológico" },
   totalStars: { en: "Stars: {n}", es: "Estrellas: {n}" },
-  starsNeeded: { en: "Need {n} ⭐", es: "Necesitas {n} ⭐" },
+  starsNeeded: { en: "Need {n}", es: "Necesitas {n}" },
   bestStarsLabel: { en: "{n} of 3 stars", es: "{n} de 3 estrellas" },
   lockedZone: {
     en: "{zone} is locked. You need {n} stars to open it.",

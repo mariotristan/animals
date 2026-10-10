@@ -14,5 +14,7 @@ test("main.js and ui.js load without a DOM", async () => {
   const main = await import("../js/main.js");
   assert.equal(typeof main.start, "function");
   const ui = await import("../js/ui.js");
-  assert.equal(ui.starsText(2), "⭐⭐☆");
+  for (const name of ["art", "animalArt", "zoneArt", "starsRow"]) {
+    assert.equal(typeof ui[name], "function", name);
+  }
 });
