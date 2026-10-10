@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { ZONES, ANIMALS, animalsInZone, getAnimal } from "../js/data/animals.js";
 
-const QUIET = ["giraffe", "shark", "octopus", "sea-turtle"];
+const QUIET = ["zebra", "hippo", "rhino", "gorilla", "giraffe", "sea-lion", "shark", "octopus", "sea-turtle", "polar-bear", "arctic-fox", "reindeer", "beaver"];
 const isText = (v) => typeof v === "string" && v.trim().length > 0;
 
 test("zones are in unlock order with the spec thresholds", () => {
