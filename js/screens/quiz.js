@@ -94,7 +94,7 @@ export function render(root, ctx) {
 
     if (q.type === "sound") {
       ctx.audio.speak(prompt).then(() => {
-        if (view.isConnected && currentQuestion(session) === q) ctx.audio.playSound(animal.sound);
+        if (view.isConnected && !session.awaitingNext && currentQuestion(session) === q) ctx.audio.playSound(animal.sound);
       });
     }
   };

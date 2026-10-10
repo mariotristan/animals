@@ -3,6 +3,7 @@
 let settings = { sfx: true, voice: true };
 let currentClip = null;
 let audioContext = null;
+let currentUtterance = null;
 
 export function configureAudio(next) {
   settings = { ...settings, ...next };
@@ -71,7 +72,7 @@ export function playSound(path, { maxMs = 6000 } = {}) {
         finish(false);
       });
       clip.play()?.catch((err) => {
-        console.warn("Sound could not play:", path, err);
+        if (err?.name !== "AbortError") console.warn("Sound could not play:", path, err);
         finish(false);
       });
     } catch (err) {
@@ -81,7 +82,7 @@ export function playSound(path, { maxMs = 6000 } = {}) {
   });
 }
 
-export function speak(text, lang, { maxMs = 10000 } = {}) {
+export function speak(text, lang, { maxMs = 6000 } = {}) {
   const synth = globalThis.speechSynthesis;
   const words = speakable(text ?? "");
   if (!settings.voice || !synth || typeof SpeechSynthesisUtterance === "undefined" || !words) {
@@ -89,22 +90,25 @@ export function speak(text, lang, { maxMs = 10000 } = {}) {
   }
   return new Promise((resolve) => {
     let done = false;
+    let utterance = null;
     const finish = () => {
       if (done) return;
       done = true;
+      if (currentUtterance === utterance) currentUtterance = null;
       clearTimeout(timer);
       resolve();
     };
     const timer = setTimeout(finish, maxMs);
     try {
       synth.cancel();
-      const utterance = new SpeechSynthesisUtterance(words);
+      utterance = new SpeechSynthesisUtterance(words);
       utterance.lang = lang === "es" ? "es-ES" : "en-US";
       const voice = pickVoice(synth.getVoices(), lang);
       if (voice) utterance.voice = voice;
       utterance.rate = 0.9;
       utterance.onend = finish;
       utterance.onerror = finish;
+      currentUtterance = utterance; // keep a reference so it is not garbage-collected before onend
       synth.speak(utterance);
     } catch (err) {
       console.warn("Speech failed:", err);
@@ -119,6 +123,7 @@ export function chime(kind) {
     const AudioCtx = globalThis.AudioContext ?? globalThis.webkitAudioContext;
     if (!AudioCtx) return;
     audioContext ??= new AudioCtx();
+    if (audioContext.state === "suspended") audioContext.resume()?.catch(() => {});
     const notes = kind === "correct" ? [523.25, 659.25, 783.99] : [392, 330];
     notes.forEach((freq, i) => {
       const start = audioContext.currentTime + i * 0.12;
