@@ -277,8 +277,10 @@ button > .icon { width: 1.6em; height: 1.6em; }
 .card .bruno .bubble::before { border-right-color: #fff6e0; }
 
 /* Quiz */
-.question-visual { text-align: center; font-size: 110px; line-height: 1.1; }
-.replay { font-size: 56px; min-height: 110px; min-width: 140px; }
+.question-visual { display: flex; justify-content: center; font-size: 110px; }
+.question-visual .art { width: 140px; height: 140px; }
+.replay { min-height: 110px; min-width: 140px; }
+.replay .icon { width: 56px; height: 56px; }
 .choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
 .choice {
   display: flex;
@@ -290,12 +292,15 @@ button > .icon { width: 1.6em; height: 1.6em; }
   font-size: 22px;
   font-weight: 800;
 }
-.choice .emoji { font-size: 80px; line-height: 1; }
+.choice .art { width: 92px; height: 92px; font-size: 80px; }
+.choice .icon { width: 64px; height: 64px; }
+.choice .icon-thumbsUp { color: #2a9d4b; }
+.choice .icon-thumbsDown { color: #c0392b; }
 .choice.correct { background: #b7f5c4; }
 .progress-text { font-weight: 800; }
 
 /* Results */
-.stars { text-align: center; font-size: 56px; letter-spacing: 6px; }
+.stars { display: flex; justify-content: center; font-size: 56px; }
 .unlocked { text-align: center; font-weight: 800; background: #fff3b0; }
 
 /* Stickers */
@@ -312,8 +317,8 @@ button > .icon { width: 1.6em; height: 1.6em; }
   text-align: center;
   font-weight: 700;
 }
-.sticker .emoji { font-size: 56px; line-height: 1.1; }
-.sticker.unknown .emoji { filter: brightness(0); opacity: 0.2; }
+.sticker .art { width: 72px; height: 72px; font-size: 56px; }
+.sticker.unknown .art { filter: brightness(0); opacity: 0.2; }
 .sticker.unknown .label { opacity: 0.6; }
 
 /* Settings */
@@ -332,6 +337,11 @@ button > .icon { width: 1.6em; height: 1.6em; }
 .credits li { margin-bottom: 6px; }
 .credits a { color: var(--focus); }
 
+.credit-art { display: inline-block; width: 1.5em; height: 1.5em; vertical-align: -0.4em; margin-right: 0.3em; }
+.unlocked { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.icon-celebrate { color: #ff8c42; }
+h1 > .icon { width: 1em; height: 1em; margin-right: 0.3em; vertical-align: -0.12em; }
+
 @media (max-width: 480px) {
   body { font-size: 18px; }
   #app { padding: 12px; }
@@ -342,7 +352,8 @@ button > .icon { width: 1.6em; height: 1.6em; }
   .bubble { font-size: 19px; }
   .choices { grid-template-columns: 1fr; }
   .choice { flex-direction: row; gap: 12px; min-height: 96px; }
-  .choice .emoji { font-size: 56px; }
+  .choice .art { width: 64px; height: 64px; font-size: 56px; }
+  .choice .icon { width: 48px; height: 48px; }
   .card .art-big { width: 112px; height: 112px; font-size: 96px; }
   .card .name { font-size: 38px; }
 }

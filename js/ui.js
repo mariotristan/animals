@@ -56,10 +56,6 @@ export function svgElement(markup) {
   return template.content.firstElementChild;
 }
 
-export function starsText(n, max = 3) {
-  return "⭐".repeat(n) + "☆".repeat(Math.max(0, max - n));
-}
-
 // Restart the bubble's little "pop" so kids notice Bruno said something new.
 function popBubble(bubble) {
   bubble.classList.remove("pop");
