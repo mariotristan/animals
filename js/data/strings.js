@@ -1,7 +1,7 @@
 // All UI text and Bruno's lines. Placeholders: {name}.
 export const STRINGS = {
   appTitle: { en: "Bruno's Zoo", es: "El Zoológico de Bruno" },
-  play: { en: "Play", es: "Jugar" },
+  enter: { en: "Enter", es: "Entrar" },
   brunoWelcome: {
     en: "Hi! I'm Bruno Tristan, the zookeeper. Welcome to my zoo!",
     es: "¡Hola! Soy Bruno Tristan, el cuidador. ¡Te doy la bienvenida a mi zoológico!",
