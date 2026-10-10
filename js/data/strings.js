@@ -80,6 +80,7 @@ export const STRINGS = {
   no: { en: "No", es: "No" },
   credits: { en: "Sound credits", es: "Créditos de sonidos" },
   noCredits: { en: "No sounds yet.", es: "Todavía no hay sonidos." },
+  sourceLink: { en: "source", es: "fuente" },
   brunoSettings: {
     en: "Grown-ups can change things here.",
     es: "Los adultos pueden cambiar cosas aquí.",
