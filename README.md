@@ -94,14 +94,19 @@ js/quiz.js              quiz building, scoring, quiz session (pure)
 js/progress.js          stars, stickers, unlocks, saved data (pure)
 js/audio.js             animal sounds, Bruno's voice, chimes
 js/scenery.js           illustrated background for each zone (and the park)
+js/icons.js             button icons (Phosphor) and drawn flags
+js/icons-data.js        generated icon shapes (scripts/build-icons.js)
+art/animals, art/zones  Fluent 3D pictures for animals and zones (scripts/fetch-art.sh)
 js/data/animals.js      zones and the 36 animals (names, facts, false statements)
 js/data/strings.js      all on-screen text in English and Spanish
 js/data/credits.js      credit for every sound clip
 js/screens/*.js         welcome, map, zone, quiz, results, stickers, settings
 sounds/*.mp3            animal sound clips
-icons/                  app icon (icon.svg) and the PNGs made from it
+icons/                  app icon PNGs
 scripts/credits-md.js   regenerates CREDITS.md from js/data/credits.js
-scripts/make-icons.sh   regenerates the icon PNGs from icons/icon.svg (macOS)
+scripts/make-icons.sh   renders the app icon PNGs (macOS)
+scripts/fetch-art.sh    downloads and converts the animal/zone artwork
+scripts/build-icons.js  downloads the button icons into js/icons-data.js
 tests/*.test.js         node --test suites
 ```
 
@@ -109,10 +114,11 @@ tests/*.test.js         node --test suites
 
 1. Add a record to `js/data/animals.js` (`id`, `zone`, `emoji`, `name`, `fact`, `myth`,
    each text in `en` and `es`). Each zone should keep 6 animals.
-2. Add a licensed clip at `sounds/<id>.mp3` (mono, ~64 kbps, 2–5 s, under 60 KB), or mark
-   the animal quiet. Use only public domain, CC0, CC BY, or CC BY-SA recordings.
+2. Add its picture: add a line to the map in `scripts/fetch-art.sh` and run it (or put a
+   256×256 WebP under 30 KB at `art/animals/<id>.webp`). Add a licensed clip at
+   `sounds/<id>.mp3` (mono, ~64 kbps, 2–5 s, under 60 KB), or mark the animal quiet. Use only public domain, CC0, CC BY, or CC BY-SA recordings.
 3. Add its credit to `js/data/credits.js` and run `node scripts/credits-md.js`.
-4. Add the new sound to `PRECACHE` in `sw.js` (the tests will remind you).
+4. Add the new picture and sound to `PRECACHE` in `sw.js` (the tests will remind you).
 5. Run `npm test`.
 
 If you **replace** an existing sound or icon, also bump `CACHE` in `sw.js` (e.g.
@@ -120,8 +126,9 @@ If you **replace** an existing sound or icon, also bump `CACHE` in `sw.js` (e.g.
 
 ## Change the app icon
 
-Edit `icons/icon.svg`, then run `bash scripts/make-icons.sh` (needs Google Chrome on macOS)
-and bump `CACHE` in `sw.js`.
+The app icon is the 3D lion on an orange glow. To change it, edit the HTML inside
+`scripts/make-icons.sh`, run `bash scripts/make-icons.sh` (needs Google Chrome on macOS), and
+bump `CACHE` in `sw.js`.
 
 ## Deploying
 
@@ -131,5 +138,6 @@ are deleted automatically.
 
 ## Credits
 
-Animal sounds: see [CREDITS.md](CREDITS.md) (also listed in the game under ⚙️ Settings).
+Animal sounds: see [CREDITS.md](CREDITS.md) (also listed in the game under Settings).
+Artwork: Microsoft Fluent Emoji (MIT) and Phosphor Icons (MIT); license texts in `art/`.
 Game code by mariotristan.

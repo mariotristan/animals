@@ -17,6 +17,13 @@ Clips under CC BY-SA are shared under the same license.
 | Animal | File | Original | Author | License |
 |---|---|---|---|---|
 ${rows.join("\n")}
+
+# Artwork credits
+
+- Animal and zone pictures, and the app icon's lion: [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji)
+  (3D style), MIT License — see \`art/LICENSE-fluentui-emoji.txt\`. Converted to 256×256 WebP.
+- Button icons: [Phosphor Icons](https://phosphoricons.com/) 2.1.1, MIT License — see
+  \`art/LICENSE-phosphor-icons.txt\`.
 `;
 
 writeFileSync("CREDITS.md", md);

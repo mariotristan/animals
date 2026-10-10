@@ -60,7 +60,17 @@ export function render(root, ctx) {
       toggle("sfx", ctx.t("soundEffects")),
       toggle("voice", ctx.t("brunoVoice")),
       resetArea,
-      h("div", { class: "credits" }, h("h2", {}, ctx.t("credits")), credits),
+      h("div", { class: "credits" },
+        h("h2", {}, ctx.t("artwork")),
+        h("ul", {},
+          h("li", {}, `${ctx.t("artworkAnimals")}: `,
+            h("a", { href: "https://github.com/microsoft/fluentui-emoji", target: "_blank", rel: "noopener" }, "Microsoft Fluent Emoji"),
+            " · MIT"),
+          h("li", {}, `${ctx.t("artworkIcons")}: `,
+            h("a", { href: "https://phosphoricons.com/", target: "_blank", rel: "noopener" }, "Phosphor Icons"),
+            " · MIT")),
+        h("h2", {}, ctx.t("credits")),
+        credits),
     ),
   );
 }
