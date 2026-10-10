@@ -10,7 +10,7 @@ export function render(root, ctx) {
   const animals = animalsInZone(zoneId);
   const quizReady = isQuizUnlocked(ctx.state, zoneId, ctx.data.ANIMALS);
 
-  const openCard = (animal) => {
+  const openCard = (animal, opener) => {
     const wasReady = isQuizUnlocked(ctx.state, zoneId, ctx.data.ANIMALS);
     ctx.update((s) => markVisited(s, animal.id));
     const justUnlocked = !wasReady && isQuizUnlocked(ctx.state, zoneId, ctx.data.ANIMALS);
@@ -18,7 +18,19 @@ export function render(root, ctx) {
     const name = ctx.localized(animal.name);
     const fact = ctx.localized(animal.fact);
     const line = animal.sound ? fact : `${ctx.t("quietAnimal")} ${fact}`;
-    const close = () => ctx.navigate("zone", { zoneId, quiet: !justUnlocked });
+    const screenEl = root.querySelector(".screen");
+    const openedAt = Date.now();
+    let downOnBackdrop = false;
+    const onEscape = (e) => {
+      if (!overlay.isConnected) return document.removeEventListener("keydown", onEscape);
+      if (e.key === "Escape") close();
+    };
+    const close = () => {
+      document.removeEventListener("keydown", onEscape);
+      screenEl?.removeAttribute("inert");
+      opener?.focus();
+      ctx.navigate("zone", { zoneId, quiet: !justUnlocked });
+    };
 
     const closeBtn = h("button", { "aria-label": ctx.t("close"), onclick: close }, "✖️");
     const overlay = h(
@@ -28,8 +40,11 @@ export function render(root, ctx) {
         role: "dialog",
         "aria-modal": "true",
         "aria-label": name,
-        onclick: (e) => { if (e.target === overlay) close(); },
-        onkeydown: (e) => { if (e.key === "Escape") close(); },
+        onpointerdown: (e) => { downOnBackdrop = e.target === overlay; },
+        onclick: (e) => {
+          if (downOnBackdrop && e.target === overlay && Date.now() - openedAt > 400) close();
+          downOnBackdrop = false;
+        },
       },
       h("div", { class: "card" },
         h("div", { class: "big-emoji", "aria-hidden": "true" }, animal.emoji),
@@ -43,6 +58,8 @@ export function render(root, ctx) {
           closeBtn)),
     );
     root.append(overlay);
+    screenEl?.setAttribute("inert", "");
+    document.addEventListener("keydown", onEscape);
     closeBtn.focus();
     ctx.audio.playSound(animal.sound).then(() => {
       if (overlay.isConnected) ctx.audio.speak(`${name}. ${line}`);
@@ -54,16 +71,22 @@ export function render(root, ctx) {
     const name = ctx.localized(animal.name);
     return h(
       "button",
-      { class: "animal-btn", "aria-label": seen ? `${name}, ${ctx.t("visited")}` : name, onclick: () => openCard(animal) },
+      {
+        class: "animal-btn",
+        "data-focus": `animal-${animal.id}`,
+        "aria-label": seen ? `${name}, ${ctx.t("visited")}` : name,
+        onclick: (e) => openCard(animal, e.currentTarget),
+      },
       h("span", { "aria-hidden": "true" }, animal.emoji),
       seen ? h("span", { class: "check", "aria-hidden": "true" }, "✓") : null,
     );
   });
 
+  const lockedLine = ctx.t("quizLocked", { n: visitedCount(ctx.state, zoneId, ctx.data.ANIMALS) });
   const quizButton = quizReady
     ? h("button", { class: "btn-primary", onclick: () => ctx.navigate("quiz", { zoneId }) }, `❓ ${ctx.t("quiz")}`)
-    : h("button", { class: "btn-primary", disabled: true },
-        `🔒 ${ctx.t("quizLocked", { n: visitedCount(ctx.state, zoneId, ctx.data.ANIMALS) })}`);
+    : h("button", { class: "btn-primary", "aria-disabled": "true", onclick: () => ctx.audio.speak(lockedLine) },
+        `🔒 ${lockedLine}`);
 
   root.append(
     screen(

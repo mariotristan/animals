@@ -55,6 +55,7 @@ button {
 button:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15); }
 button:focus-visible { outline: 4px solid var(--focus); outline-offset: 3px; }
 button:disabled { opacity: 0.35; cursor: default; transform: none; }
+button[aria-disabled="true"] { opacity: 0.45; cursor: default; }
 button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
 
 .btn-primary {
