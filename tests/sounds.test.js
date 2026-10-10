@@ -14,6 +14,13 @@ test("every sound file exists and is under 60 KB", () => {
   }
 });
 
+test("every sound is at least ~2 s long (64 kbps mono: bytes * 8 / 64000)", () => {
+  for (const a of withSound) {
+    const seconds = (statSync(a.sound).size * 8) / 64000;
+    assert.ok(seconds >= 1.8, `${a.sound} is only ~${seconds.toFixed(1)} s`);
+  }
+});
+
 test("every sound has exactly one complete credit with an allowed license", () => {
   for (const a of withSound) {
     const matches = CREDITS.filter((c) => c.file === a.sound);
