@@ -18,6 +18,8 @@ const PRECACHE = [
   "js/data/strings.js",
   "js/entrance.js",
   "js/i18n.js",
+  "js/icons-data.js",
+  "js/icons.js",
   "js/main.js",
   "js/progress.js",
   "js/quiz.js",
