@@ -1,5 +1,6 @@
 // Small DOM helpers shared by screens.
 import { setLanguage } from "./progress.js";
+import { BRUNO_SVG } from "./bruno.js";
 
 export function h(tag, attrs = {}, ...children) {
   const el = document.createElement(tag);
@@ -20,21 +21,36 @@ export function screen(...children) {
   return h("section", { class: "screen" }, ...children);
 }
 
+// Turns trusted SVG markup (our own drawings) into an element.
+export function svgElement(markup) {
+  const template = document.createElement("template");
+  template.innerHTML = markup.trim();
+  return template.content.firstElementChild;
+}
+
 export function starsText(n, max = 3) {
   return "⭐".repeat(n) + "☆".repeat(Math.max(0, max - n));
 }
 
-// Bruno with a speech bubble. Tap Bruno to hear the line again.
+// Restart the bubble's little "pop" so kids notice Bruno said something new.
+function popBubble(bubble) {
+  bubble.classList.remove("pop");
+  void bubble.offsetWidth;
+  bubble.classList.add("pop");
+}
+
+// Animated Bruno with a speech bubble. Tap Bruno to hear the line again.
 export function bruno(ctx, text, { speakNow = true } = {}) {
-  const bubble = h("p", { class: "bubble", "aria-live": "polite" }, text);
+  const bubble = h("p", { class: "bubble pop", "aria-live": "polite" }, text);
   const face = h(
     "button",
     { class: "bruno-face", "aria-label": ctx.t("brunoRepeat"), onclick: () => ctx.audio.speak(bubble.textContent) },
-    "🧑‍🌾",
+    svgElement(BRUNO_SVG),
   );
   const el = h("div", { class: "bruno" }, face, bubble);
   el.say = (line) => {
     bubble.textContent = line;
+    popBubble(bubble);
     return ctx.audio.speak(line);
   };
   if (speakNow && !ctx.quiet) ctx.audio.speak(text);

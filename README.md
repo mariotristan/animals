@@ -8,7 +8,8 @@ what you learned in quizzes to earn stars and stickers.
 
 ## How to play
 
-1. Pick a language (🇺🇸 English / 🇪🇸 Español) and press **Play**.
+1. At the zoo entrance, pick a language (🇺🇸 English / 🇪🇸 Español) and tap **Enter**: the
+   gates swing open and you walk in to the Zoo Map.
 2. Choose a zone on the map. Tap every animal to hear its sound, see its name, and learn a
    fun fact from Bruno. Tap 🔊 to hear the sound again and 🗣️ to hear the name again.
 3. When you've met all six animals in a zone, take the zone **Quiz** (6 questions):
@@ -21,7 +22,8 @@ what you learned in quizzes to earn stars and stickers.
    Stars unlock new zones, and every animal you get right on the first try goes into your
    📒 **Sticker Book**.
 
-Bruno reads everything important aloud, so early readers can play on their own. Each zone has
+Zookeeper Bruno waves, blinks, and reads everything important aloud, so early readers can play
+on their own (tap him to hear a line again). Each zone has
 its own illustrated scenery: acacias on the savanna, vines in the jungle, an underwater ocean,
 northern lights at the poles, a red barn on the farm, and pine trees in the forest.
 
@@ -85,6 +87,8 @@ sw.js                   service worker: saves the game for offline play
 css/style.css           layout, zone scenery, big touch targets
 js/main.js              boots the app, owns state, routes between screens
 js/ui.js                small DOM helpers and Bruno's speech bubble
+js/bruno.js             Bruno's drawing (animated with CSS)
+js/entrance.js          the zoo gate drawing on the Welcome screen
 js/i18n.js              current language and text lookup
 js/quiz.js              quiz building, scoring, quiz session (pure)
 js/progress.js          stars, stickers, unlocks, saved data (pure)

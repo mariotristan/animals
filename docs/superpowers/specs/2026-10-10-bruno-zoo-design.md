@@ -246,3 +246,16 @@ important is cropped from phone portrait to wide desktop. Detail stays at the ed
 middle remains calm behind the animal buttons; no animation. Screen titles sit on a soft white
 card for readability, and locked buttons are drawn solid instead of transparent.
 
+## 13. Addendum (2026-10-10): zoo entrance and animated Bruno
+
+- **Bruno** is a drawn safari zookeeper (`js/bruno.js`: khaki shirt, safari hat, binoculars,
+  green BRUNO name patch) used everywhere he appears. Like the astronaut on the sibling
+  Planets site, CSS floats and tilts him, waves his right arm, and blinks his eyes; his bubble
+  "pops" whenever he says something new. All motion stops under `prefers-reduced-motion`.
+- **Welcome** is the zoo entrance (`js/entrance.js`): pillars with lion/elephant toppers, a
+  leafy arch with a wooden sign showing the localized title (a real `<h1>`), iron gates, a
+  ticket booth and a path, over the park scenery. Tapping **Enter / Entrar** swings the gates
+  open (~0.9 s, with a chime) and then shows the Zoo Map; double taps are ignored and reduced
+  motion goes straight to the map. Bruno and his welcome bubble stand beside the gate in
+  landscape and above it in portrait; the language buttons sit below the gate.
+

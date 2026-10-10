@@ -16,10 +16,10 @@ test("every string has non-empty en and es with the same placeholders", () => {
 });
 
 test("t returns the current language", () => {
-  assert.equal(t("play"), "Play");
+  assert.equal(t("enter"), "Enter");
   setLang("es");
   assert.equal(getLang(), "es");
-  assert.equal(t("play"), "Jugar");
+  assert.equal(t("enter"), "Entrar");
 });
 
 test("t interpolates variables and leaves unknown placeholders", () => {

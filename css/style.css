@@ -94,11 +94,84 @@ button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink
 /* Bruno */
 .bruno { display: flex; align-items: flex-end; gap: 12px; }
 .bruno-face {
-  font-size: 64px;
-  line-height: 1;
+  flex: none;
   padding: 0;
   background: transparent;
   box-shadow: none;
+}
+.bruno-face svg { display: block; width: 72px; height: 97px; overflow: visible; animation: bruno-float 3s ease-in-out infinite; }
+.bruno-wave { transform-origin: 98px 74px; animation: bruno-wave 1.6s ease-in-out infinite; }
+.bruno-eyes { transform-box: fill-box; transform-origin: center; animation: bruno-blink 4s infinite; }
+.bubble.pop { animation: bubble-pop 0.35s ease-out; }
+@keyframes bruno-float {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-8px) rotate(3deg); }
+}
+@keyframes bruno-wave {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-25deg); }
+}
+@keyframes bruno-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+@keyframes bubble-pop {
+  0% { transform: scale(0.85); }
+  60% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+/* Welcome screen: the zoo entrance. Overlay positions match the gate's 420x340 viewBox. */
+.entrance { align-items: center; }
+.entrance-layout { display: grid; gap: 12px; width: 100%; justify-items: center; }
+.entrance-layout .bruno { width: 100%; max-width: 560px; }
+.gate {
+  position: relative;
+  width: min(100%, calc((100vh - 260px) * 420 / 340), 640px);
+  min-width: min(100%, 300px);
+  aspect-ratio: 420 / 340;
+  container-type: inline-size;
+}
+.gate > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.gate-sign {
+  position: absolute;
+  left: 22.9%;
+  width: 54.3%;
+  top: 2.9%;
+  height: 15.9%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 4.4cqw;
+  line-height: 1.1;
+  text-shadow: 0 2px 0 #5d3a1a;
+}
+.gate-topper { position: absolute; bottom: 71.8%; font-size: 9cqw; line-height: 1; transform: translateX(-50%); }
+.gate-topper-left { left: 17.9%; }
+.gate-topper-right { left: 82.1%; }
+.gate-enter {
+  position: absolute;
+  left: 50%;
+  bottom: 20%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: max(22px, 5cqw);
+}
+.gate-enter:active { transform: translateX(-50%) translateY(2px); }
+.gate-door { transition: transform 0.8s ease-in-out; transform-box: fill-box; }
+.gate-door-left { transform-origin: left center; }
+.gate-door-right { transform-origin: right center; }
+.opening .gate-door { transform: scaleX(0.1); }
+.opening .gate-enter { opacity: 0; transition: opacity 0.3s; }
+
+@media (orientation: landscape) and (min-width: 700px) {
+  .entrance-layout { grid-template-columns: minmax(200px, 300px) minmax(300px, 640px); align-items: end; justify-content: center; }
+  .entrance-layout .bruno { flex-direction: column; align-items: flex-start; }
+  .entrance-layout .bruno .bubble::before { left: 36px; top: -12px; bottom: auto; border: 12px solid transparent; border-bottom-color: #fff; border-top: 0; }
+  .entrance-layout .bruno-face svg { width: 96px; height: 130px; }
+  .gate { width: min(100%, calc((100vh - 160px) * 420 / 340), 640px); }
 }
 .bubble {
   position: relative;
@@ -244,7 +317,7 @@ button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink
   #app { padding: 12px; }
   .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .animal-btn { min-height: 120px; font-size: 76px; }
-  .bruno-face { font-size: 52px; }
+  .bruno-face svg { width: 56px; height: 76px; }
   .bubble { font-size: 19px; }
   .choices { grid-template-columns: 1fr; }
   .choice { flex-direction: row; gap: 12px; min-height: 96px; }
@@ -256,4 +329,5 @@ button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
   button:active { transform: none; }
+  .bruno-face svg, .bruno-wave, .bruno-eyes, .bubble.pop { animation: none; }
 }
