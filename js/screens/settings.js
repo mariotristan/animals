@@ -11,6 +11,7 @@ export function render(root, ctx) {
         "button",
         {
           "aria-label": label,
+          "data-focus": `setting-${key}`,
           "aria-pressed": String(ctx.state.settings[key]),
           onclick: () => {
             ctx.update((s) => setSetting(s, key, !s.settings[key]));
@@ -21,13 +22,13 @@ export function render(root, ctx) {
       ));
 
   const resetArea = h("div", { class: "setting-row" });
-  const showReset = () =>
-    resetArea.replaceChildren(
-      h("span", {}, ctx.t("resetProgress")),
-      h("button", { onclick: showConfirm }, `🗑️ ${ctx.t("resetProgress")}`),
-    );
+  const showReset = () => {
+    const reset = h("button", { onclick: showConfirm }, `🗑️ ${ctx.t("resetProgress")}`);
+    resetArea.replaceChildren(h("span", {}, ctx.t("resetProgress")), reset);
+    return reset;
+  };
   const showConfirm = () => {
-    const no = h("button", { onclick: showReset }, ctx.t("no"));
+    const no = h("button", { onclick: () => showReset().focus() }, ctx.t("no"));
     resetArea.replaceChildren(
       h("span", {}, ctx.t("resetConfirm")),
       h("div", { class: "row" },

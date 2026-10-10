@@ -37,7 +37,7 @@ export function bruno(ctx, text, { speakNow = true } = {}) {
     bubble.textContent = line;
     return ctx.audio.speak(line);
   };
-  if (speakNow) ctx.audio.speak(text);
+  if (speakNow && !ctx.quiet) ctx.audio.speak(text);
   return el;
 }
 
@@ -51,6 +51,7 @@ export function languageToggle(ctx) {
       "button",
       {
         lang,
+        "data-focus": `lang-${lang}`,
         "aria-pressed": String(ctx.lang === lang),
         onclick: () => {
           ctx.update((s) => setLanguage(s, lang));

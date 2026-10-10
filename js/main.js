@@ -25,20 +25,30 @@ export function start() {
     document.title = t("appTitle");
   };
 
-  const renderCurrent = () => {
+  let quietRender = false;
+
+  const renderCurrent = ({ quiet = false } = {}) => {
     stopAll();
+    const focusKey = document.activeElement?.dataset?.focus;
     const scenery = ZONES.find((z) => z.id === current.params.zoneId);
     document.body.style.setProperty("--sky", scenery?.sky ?? "");
     document.body.style.setProperty("--ground", scenery?.ground ?? "");
     root.replaceChildren();
-    (SCREENS[current.name] ?? map).render(root, ctx);
-    root.querySelector("h1")?.focus();
+    quietRender = quiet;
+    try {
+      (SCREENS[current.name] ?? map).render(root, ctx);
+    } finally {
+      quietRender = false;
+    }
+    const target = focusKey && root.querySelector(`[data-focus="${focusKey}"]`);
+    (target ?? root.querySelector("h1"))?.focus();
   };
 
   const ctx = {
     get state() { return state; },
     get params() { return current.params; },
     get lang() { return getLang(); },
+    get quiet() { return quietRender; },
     data: { ZONES, ANIMALS },
     t,
     localized,
@@ -57,7 +67,7 @@ export function start() {
       current = { name, params };
       renderCurrent();
     },
-    rerender: () => renderCurrent(),
+    rerender: () => renderCurrent({ quiet: true }),
   };
 
   applyState();
