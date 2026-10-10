@@ -235,3 +235,14 @@ Home Screen) and played offline:
 - `tests/pwa.test.js` checks the manifest, the HTML tags, that `PRECACHE` lists exactly the game's
   files, and the byte-range parser.
 
+## 12. Addendum (2026-10-10): illustrated zone scenery
+
+Each zone gets a hand-drawn SVG scene (Savanna: acacias and birds at sunset; Jungle: vines, big
+leaves, palm, flowers; Ocean: underwater light rays, seaweed, coral, sand; Polar: northern
+lights, snow, icebergs; Farm: barn, silo, fence, hay; Forest: layered pines, log, mushrooms),
+and the other screens use a sunny park. Scenes live in `js/scenery.js` as six layers (sky, top
+band, ground, bottom-left, bottom-right, floor), each pinned to its own screen edge so nothing
+important is cropped from phone portrait to wide desktop. Detail stays at the edges so the
+middle remains calm behind the animal buttons; no animation. Screen titles sit on a soft white
+card for readability, and locked buttons are drawn solid instead of transparent.
+
