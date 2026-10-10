@@ -214,5 +214,24 @@ on a desktop and a narrow/mobile viewport, and check the browser console for err
 ## 10. Out of scope (v1)
 
 Accounts or online leaderboards, more than two languages, custom illustrated art, background
-music, a timer or pressure mechanics, analytics, and offline/PWA install. Any of these can be
+music, a timer or pressure mechanics, and analytics. Any of these can be
 added later.
+
+## 11. Addendum (2026-10-10): installable, offline app
+
+The game is a Progressive Web App so it can be installed on an iPad from Safari (Share → Add to
+Home Screen) and played offline:
+
+- `manifest.webmanifest`: name, standalone display, relative `start_url`/`scope`, sky/orange
+  colors, 192/512 px icons (512 also maskable). `index.html` adds the Apple full-screen tags and a
+  180 px `apple-touch-icon`.
+- Icons are a hand-drawn paw print (`icons/icon.svg`), rendered to PNG by `scripts/make-icons.sh`
+  (dev-only). No emoji artwork is shipped as images.
+- `sw.js` precaches every game file on first load (page, CSS, JS, sounds, icons). Pages and code
+  are network-first (updates arrive on the next online launch); sounds and icons are cache-first
+  and answer byte-range requests with 206 responses, which Safari needs to play audio served by a
+  service worker. Old caches are deleted on activation.
+- If the service worker can't register, the game keeps working online.
+- `tests/pwa.test.js` checks the manifest, the HTML tags, that `PRECACHE` lists exactly the game's
+  files, and the byte-range parser.
+

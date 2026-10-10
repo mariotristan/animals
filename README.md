@@ -17,6 +17,14 @@ what you learned in quizzes to earn stars and stickers.
 
 Progress is saved in your browser only — no accounts, no tracking.
 
+## Install on an iPad (works offline)
+
+1. Open https://mariotristan.github.io/animals/ in **Safari**.
+2. Tap the **Share** button, then **Add to Home Screen**, then **Add**.
+3. Open Bruno's Zoo from the home screen once while online. After that it plays offline too.
+
+It also installs from Chrome or Edge on Android and desktop (install icon in the address bar).
+
 ## Run locally
 
 ```bash
@@ -37,7 +45,8 @@ npm test
 2. Add a licensed clip at `sounds/<id>.mp3` (mono, ~64 kbps, under 60 KB), or mark the
    animal quiet.
 3. Add its credit to `js/data/credits.js` and run `node scripts/credits-md.js`.
-4. Run `npm test`.
+4. Add the new sound to `PRECACHE` in `sw.js` (the tests will remind you) and bump `CACHE`.
+5. Run `npm test`.
 
 ## Credits
 
