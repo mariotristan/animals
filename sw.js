@@ -19,6 +19,7 @@ const PRECACHE = [
   "js/main.js",
   "js/progress.js",
   "js/quiz.js",
+  "js/scenery.js",
   "js/screens/map.js",
   "js/screens/quiz.js",
   "js/screens/results.js",

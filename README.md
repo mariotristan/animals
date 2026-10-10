@@ -21,7 +21,9 @@ what you learned in quizzes to earn stars and stickers.
    Stars unlock new zones, and every animal you get right on the first try goes into your
    📒 **Sticker Book**.
 
-Bruno reads everything important aloud, so early readers can play on their own.
+Bruno reads everything important aloud, so early readers can play on their own. Each zone has
+its own illustrated scenery: acacias on the savanna, vines in the jungle, an underwater ocean,
+northern lights at the poles, a red barn on the farm, and pine trees in the forest.
 
 ### Zones
 
@@ -87,6 +89,7 @@ js/i18n.js              current language and text lookup
 js/quiz.js              quiz building, scoring, quiz session (pure)
 js/progress.js          stars, stickers, unlocks, saved data (pure)
 js/audio.js             animal sounds, Bruno's voice, chimes
+js/scenery.js           illustrated background for each zone (and the park)
 js/data/animals.js      zones and the 36 animals (names, facts, false statements)
 js/data/strings.js      all on-screen text in English and Spanish
 js/data/credits.js      credit for every sound clip
