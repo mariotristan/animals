@@ -74,4 +74,15 @@ export function start() {
   renderCurrent();
 }
 
-if (typeof document !== "undefined") start();
+// Offline support for the installed app. If it fails, the game still works online.
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+  navigator.serviceWorker.register("sw.js").catch((err) => {
+    console.warn("Offline support unavailable:", err);
+  });
+}
+
+if (typeof document !== "undefined") {
+  start();
+  registerServiceWorker();
+}
