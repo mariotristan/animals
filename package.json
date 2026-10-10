@@ -1,0 +1,10 @@
+{
+  "name": "bruno-zoo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bruno's Zoo — a free animal game for kids",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}
