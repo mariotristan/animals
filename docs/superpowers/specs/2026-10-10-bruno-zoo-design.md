@@ -27,7 +27,7 @@ animals. Players visit a zoo run by zookeeper **Bruno Tristan**, learn each anim
 | Language | English + Spanish, switchable |
 | Size | 6 zones × 6 animals = 36 animals |
 | Tech | Plain HTML/CSS/JavaScript (ES modules), no build step |
-| Hosting | Public repo `mariotristan/bruno-zoo`, GitHub Pages from `main` (root) |
+| Hosting | Public repo `mariotristan/animals`, GitHub Pages from `main` (root) |
 | Identity | All commits authored as `mariotristan <mariotristan@gmail.com>` |
 
 ## 2. Screens and flow
@@ -204,11 +204,10 @@ on a desktop and a narrow/mobile viewport, and check the browser console for err
 
 ## 9. Publishing
 
-- Public GitHub repo `mariotristan/bruno-zoo` created with the `mariotristan` gh account
-  (switch from the default active account first).
+- Public GitHub repo `mariotristan/animals` (existing; use the `mariotristan` gh account, switching from the default active account first).
 - GitHub Pages: deploy from branch `main`, folder `/`. Include an empty `.nojekyll` file.
-- All file paths are relative so the game works under `/bruno-zoo/`.
-- Live URL: https://mariotristan.github.io/bruno-zoo/
+- All file paths are relative so the game works under `/animals/`.
+- Live URL: https://mariotristan.github.io/animals/
 - `README.md` with a description, how to play, how to run locally, how to add an animal, and
   credits.
 

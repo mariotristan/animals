@@ -45,7 +45,7 @@ export function backButton(ctx, to, params = {}) {
   return h("button", { "aria-label": ctx.t("back"), onclick: () => ctx.navigate(to, params) }, "⬅️");
 }
 
-export function languageToggle(ctx) {
+export function languageToggle(ctx, { onChange } = {}) {
   const option = (lang, label) =>
     h(
       "button",
@@ -56,6 +56,7 @@ export function languageToggle(ctx) {
         onclick: () => {
           ctx.update((s) => setLanguage(s, lang));
           ctx.rerender();
+          onChange?.();
         },
       },
       label,

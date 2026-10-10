@@ -10,7 +10,11 @@ export function render(root, ctx) {
   root.append(
     screen(
       h("h1", { tabindex: "-1" }, `🎉 ${ctx.t("resultsTitle")}`),
-      bruno(ctx, ctx.t(`brunoResults${stars}`)),
+      bruno(ctx, [
+        ctx.t(`brunoResults${stars}`),
+        newStickers.length ? ctx.t("newStickers") : null,
+        ...unlocked.map((id) => ctx.t("zoneUnlocked", { zone: zoneName(id) })),
+      ].filter(Boolean).join(" ")),
       h("div", { class: "stars", role: "img", "aria-label": ctx.t("bestStarsLabel", { n: stars }) }, starsText(stars)),
       newStickers.length
         ? [h("h2", {}, ctx.t("newStickers")),
