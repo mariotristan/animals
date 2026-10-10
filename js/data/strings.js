@@ -4,13 +4,13 @@ export const STRINGS = {
   play: { en: "Play", es: "Jugar" },
   brunoWelcome: {
     en: "Hi! I'm Bruno Tristan, the zookeeper. Welcome to my zoo!",
-    es: "¡Hola! Soy Bruno Tristan, el cuidador. ¡Bienvenido a mi zoológico!",
+    es: "¡Hola! Soy Bruno Tristan, el cuidador. ¡Te doy la bienvenida a mi zoológico!",
   },
   brunoMap: { en: "Pick a place to visit!", es: "¡Elige un lugar para visitar!" },
   brunoZone: { en: "Tap each animal to meet it!", es: "¡Toca cada animal para conocerlo!" },
   brunoQuizReady: {
     en: "You met everyone! Ready for the quiz?",
-    es: "¡Conociste a todos! ¿Listo para las preguntas?",
+    es: "¡Conociste a todos! ¿Quieres hacer las preguntas?",
   },
   brunoRepeat: { en: "Bruno, say it again", es: "Bruno, repítelo" },
   mapTitle: { en: "Zoo Map", es: "Mapa del zoológico" },
@@ -19,7 +19,7 @@ export const STRINGS = {
   bestStarsLabel: { en: "{n} of 3 stars", es: "{n} de 3 estrellas" },
   lockedZone: {
     en: "{zone} is locked. You need {n} stars to open it.",
-    es: "{zone} está cerrado. Necesitas {n} estrellas para abrirlo.",
+    es: "Todavía no puedes visitar {zone}. Necesitas {n} estrellas para entrar.",
   },
   stickerBook: { en: "Sticker Book", es: "Álbum de stickers" },
   settings: { en: "Settings", es: "Ajustes" },
@@ -35,7 +35,7 @@ export const STRINGS = {
   quietAnimal: { en: "This animal is very quiet.", es: "Este animal es muy silencioso." },
   visited: { en: "visited", es: "visitado" },
   qSound: { en: "Who makes this sound?", es: "¿Quién hace este sonido?" },
-  qName: { en: "Find the {name}!", es: "¡Encuentra: {name}!" },
+  qName: { en: "Find the {name}!", es: "¿Dónde está {name}?" },
   qTrueFalse: { en: "True or false?", es: "¿Verdadero o falso?" },
   true: { en: "True", es: "Verdadero" },
   false: { en: "False", es: "Falso" },

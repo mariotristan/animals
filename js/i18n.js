@@ -12,8 +12,8 @@ export function getLang() {
 }
 
 export function t(key, vars = {}) {
+  if (!Object.hasOwn(STRINGS, key)) return key;
   const entry = STRINGS[key];
-  if (!entry) return key;
   const text = entry[current] ?? entry.en;
   return text.replace(/\{(\w+)\}/g, (match, name) => (name in vars ? String(vars[name]) : match));
 }

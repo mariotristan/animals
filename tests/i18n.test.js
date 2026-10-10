@@ -29,6 +29,7 @@ test("t interpolates variables and leaves unknown placeholders", () => {
 
 test("t returns the key for unknown keys", () => {
   assert.equal(t("doesNotExist"), "doesNotExist");
+  assert.equal(t("constructor"), "constructor");
 });
 
 test("setLang ignores unsupported languages", () => {
