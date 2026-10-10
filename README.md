@@ -121,7 +121,7 @@ tests/*.test.js         node --test suites
 4. Add the new picture and sound to `PRECACHE` in `sw.js` (the tests will remind you).
 5. Run `npm test`.
 
-If you **replace** an existing sound or icon, also bump `CACHE` in `sw.js` (e.g.
+If you **replace** an existing picture, sound, or icon, also bump `CACHE` in `sw.js` (e.g.
 `bruno-zoo-v2`) so installed copies download the new file.
 
 ## Change the app icon

@@ -81,3 +81,13 @@ test("the favicon is the app icon, not an emoji", () => {
   const html = readFileSync("index.html", "utf8");
   assert.match(html, /<link rel="icon" href="icons\/icon-192\.png"/);
 });
+
+test("pictures, sounds, and icons are served from the saved copy first", () => {
+  const run = loadServiceWorker();
+  for (const path of ["/animals/art/animals/lion.webp", "/animals/sounds/lion.mp3", "/animals/icons/icon-192.png"]) {
+    assert.equal(run(`isCacheFirst(${JSON.stringify(path)})`), true, path);
+  }
+  for (const path of ["/animals/", "/animals/index.html", "/animals/js/main.js", "/animals/css/style.css"]) {
+    assert.equal(run(`isCacheFirst(${JSON.stringify(path)})`), false, path);
+  }
+});

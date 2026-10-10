@@ -1,5 +1,5 @@
 // Saves the game on the device so it keeps working offline once installed.
-// Bump CACHE whenever a sound or icon file changes so installed copies download it again.
+// Bump CACHE whenever a picture, sound, or icon file changes so installed copies download it again.
 const CACHE = "bruno-zoo-v2";
 
 // Every file the game needs. tests/pwa.test.js keeps this list in sync with the repo.
@@ -124,11 +124,15 @@ self.addEventListener("fetch", (event) => {
   const { request } = event;
   const url = new URL(request.url);
   if (request.method !== "GET" || url.origin !== self.location.origin) return;
-  const isMedia = /\.(mp3|png)$/.test(url.pathname);
-  event.respondWith(isMedia ? cacheFirst(request) : networkFirst(request));
+  event.respondWith(isCacheFirst(url.pathname) ? cacheFirst(request) : networkFirst(request));
 });
 
-// Sounds and icons never change, so serve the saved copy.
+// Pictures, sounds, and icons never change within a CACHE version.
+function isCacheFirst(pathname) {
+  return /\.(mp3|png|webp)$/.test(pathname);
+}
+
+// Serve the saved copy of pictures, sounds, and icons.
 async function cacheFirst(request) {
   const response = (await caches.match(request, { ignoreSearch: true })) ?? (await fetch(request));
   const header = request.headers.get("range");
