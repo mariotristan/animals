@@ -1,12 +1,54 @@
 // Saves the game on the device so it keeps working offline once installed.
-// Bump CACHE whenever a sound or icon file changes so installed copies download it again.
-const CACHE = "bruno-zoo-v1";
+// Bump CACHE whenever a picture, sound, or icon file changes so installed copies download it again.
+const CACHE = "bruno-zoo-v2";
 
 // Every file the game needs. tests/pwa.test.js keeps this list in sync with the repo.
 const PRECACHE = [
   "./",
   "index.html",
   "manifest.webmanifest",
+  "art/animals/arctic-fox.webp",
+  "art/animals/arctic-wolf.webp",
+  "art/animals/bear.webp",
+  "art/animals/beaver.webp",
+  "art/animals/bee.webp",
+  "art/animals/chicken.webp",
+  "art/animals/cow.webp",
+  "art/animals/dolphin.webp",
+  "art/animals/duck.webp",
+  "art/animals/elephant.webp",
+  "art/animals/frog.webp",
+  "art/animals/giraffe.webp",
+  "art/animals/gorilla.webp",
+  "art/animals/hippo.webp",
+  "art/animals/horse.webp",
+  "art/animals/lion.webp",
+  "art/animals/monkey.webp",
+  "art/animals/octopus.webp",
+  "art/animals/parrot.webp",
+  "art/animals/penguin.webp",
+  "art/animals/pig.webp",
+  "art/animals/polar-bear.webp",
+  "art/animals/raccoon.webp",
+  "art/animals/reindeer.webp",
+  "art/animals/rhino.webp",
+  "art/animals/sea-lion.webp",
+  "art/animals/sea-turtle.webp",
+  "art/animals/shark.webp",
+  "art/animals/sheep.webp",
+  "art/animals/snake.webp",
+  "art/animals/snowy-owl.webp",
+  "art/animals/squirrel.webp",
+  "art/animals/tiger.webp",
+  "art/animals/whale.webp",
+  "art/animals/wild-turkey.webp",
+  "art/animals/zebra.webp",
+  "art/zones/farm.webp",
+  "art/zones/forest.webp",
+  "art/zones/jungle.webp",
+  "art/zones/ocean.webp",
+  "art/zones/polar.webp",
+  "art/zones/savanna.webp",
   "css/style.css",
   "icons/icon-180.png",
   "icons/icon-192.png",
@@ -18,6 +60,8 @@ const PRECACHE = [
   "js/data/strings.js",
   "js/entrance.js",
   "js/i18n.js",
+  "js/icons-data.js",
+  "js/icons.js",
   "js/main.js",
   "js/progress.js",
   "js/quiz.js",
@@ -80,11 +124,15 @@ self.addEventListener("fetch", (event) => {
   const { request } = event;
   const url = new URL(request.url);
   if (request.method !== "GET" || url.origin !== self.location.origin) return;
-  const isMedia = /\.(mp3|png)$/.test(url.pathname);
-  event.respondWith(isMedia ? cacheFirst(request) : networkFirst(request));
+  event.respondWith(isCacheFirst(url.pathname) ? cacheFirst(request) : networkFirst(request));
 });
 
-// Sounds and icons never change, so serve the saved copy.
+// Pictures, sounds, and icons never change within a CACHE version.
+function isCacheFirst(pathname) {
+  return /\.(mp3|png|webp)$/.test(pathname);
+}
+
+// Serve the saved copy of pictures, sounds, and icons.
 async function cacheFirst(request) {
   const response = (await caches.match(request, { ignoreSearch: true })) ?? (await fetch(request));
   const header = request.headers.get("range");

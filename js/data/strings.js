@@ -15,7 +15,7 @@ export const STRINGS = {
   brunoRepeat: { en: "Bruno, say it again", es: "Bruno, repítelo" },
   mapTitle: { en: "Zoo Map", es: "Mapa del zoológico" },
   totalStars: { en: "Stars: {n}", es: "Estrellas: {n}" },
-  starsNeeded: { en: "Need {n} ⭐", es: "Necesitas {n} ⭐" },
+  starsNeeded: { en: "Need {n}", es: "Necesitas {n}" },
   bestStarsLabel: { en: "{n} of 3 stars", es: "{n} de 3 estrellas" },
   lockedZone: {
     en: "{zone} is locked. You need {n} stars to open it.",
@@ -81,6 +81,9 @@ export const STRINGS = {
   credits: { en: "Sound credits", es: "Créditos de sonidos" },
   noCredits: { en: "No sounds yet.", es: "Todavía no hay sonidos." },
   sourceLink: { en: "source", es: "fuente" },
+  artwork: { en: "Artwork", es: "Ilustraciones" },
+  artworkAnimals: { en: "Animal and zone pictures", es: "Dibujos de animales y zonas" },
+  artworkIcons: { en: "Button icons", es: "Iconos de botones" },
   brunoSettings: {
     en: "Grown-ups can change things here.",
     es: "Los adultos pueden cambiar cosas aquí.",

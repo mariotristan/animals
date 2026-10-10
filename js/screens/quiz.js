@@ -1,7 +1,8 @@
-import { h, screen, bruno, backButton } from "../ui.js";
+import { h, screen, bruno, backButton, animalArt, zoneArt } from "../ui.js";
 import { buildQuiz, scoreAttempt, createSession, currentQuestion, answer, advance, isFinished } from "../quiz.js";
 import { isQuizUnlocked, recordQuizResult, newStickerIds, newlyUnlockedZones } from "../progress.js";
 import { getAnimal } from "../data/animals.js";
+import { icon } from "../icons.js";
 
 const NEXT_DELAY_MS = 1400;
 const pick = (keys) => keys[Math.floor(Math.random() * keys.length)];
@@ -19,14 +20,12 @@ export function render(root, ctx) {
 
   const choiceButton = (q, choice) => {
     if (q.type === "truefalse") {
-      return h("button", { class: "choice" },
-        h("span", { class: "emoji", "aria-hidden": "true" }, choice ? "👍" : "👎"),
-        ctx.t(choice ? "true" : "false"));
+      return h("button", { class: "choice" }, icon(choice ? "thumbsUp" : "thumbsDown"), ctx.t(choice ? "true" : "false"));
     }
     const animal = getAnimal(choice);
     const name = ctx.localized(animal.name);
     return h("button", { class: "choice", "aria-label": name },
-      h("span", { class: "emoji", "aria-hidden": "true" }, animal.emoji),
+      animalArt(animal),
       q.type === "sound" ? h("span", { "aria-hidden": "true" }, name) : null);
   };
 
@@ -51,9 +50,9 @@ export function render(root, ctx) {
     const visual =
       q.type === "sound"
         ? h("div", { class: "row" },
-            h("button", { class: "replay", "aria-label": ctx.t("playSound"), onclick: () => ctx.audio.playSound(animal.sound) }, "🔊"))
+            h("button", { class: "replay", "aria-label": ctx.t("playSound"), onclick: () => ctx.audio.playSound(animal.sound) }, icon("sound")))
         : q.type === "truefalse"
-          ? h("div", { class: "question-visual", "aria-hidden": "true" }, animal.emoji)
+          ? h("div", { class: "question-visual", "aria-hidden": "true" }, animalArt(animal))
           : null;
 
     const buttons = q.choices.map((choice) => {
@@ -85,7 +84,7 @@ export function render(root, ctx) {
         backButton(ctx, "zone", { zoneId, quiet: true }),
         h("span", { class: "pill progress-text" },
           ctx.t("questionOf", { n: session.index + 1, total: session.questions.length }))),
-      h("h1", { tabindex: "-1" }, `${zone.emoji} ${ctx.t("quiz")}`),
+      h("h1", { tabindex: "-1" }, zoneArt(zone, "art title-art"), ctx.t("quiz")),
       brunoEl,
       visual,
       h("div", { class: "choices" }, buttons),

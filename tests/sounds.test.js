@@ -41,3 +41,9 @@ test("CREDITS.md is generated from credits.js", () => {
     assert.ok(md.includes(c.source), `CREDITS.md missing ${c.source}`);
   }
 });
+
+test("CREDITS.md credits the artwork projects", () => {
+  const md = readFileSync("CREDITS.md", "utf8");
+  assert.match(md, /Fluent Emoji/);
+  assert.match(md, /Phosphor Icons/);
+});

@@ -1,7 +1,8 @@
-import { h, screen, bruno, backButton, languageToggle } from "../ui.js";
+import { h, screen, bruno, backButton, languageToggle, animalArt } from "../ui.js";
 import { setSetting, resetProgress } from "../progress.js";
 import { CREDITS } from "../data/credits.js";
 import { getAnimal } from "../data/animals.js";
+import { icon } from "../icons.js";
 
 export function render(root, ctx) {
   const toggle = (key, label) =>
@@ -23,7 +24,7 @@ export function render(root, ctx) {
 
   const resetArea = h("div", { class: "setting-row" });
   const showReset = () => {
-    const reset = h("button", { onclick: showConfirm }, `🗑️ ${ctx.t("resetProgress")}`);
+    const reset = h("button", { onclick: showConfirm }, icon("reset"), ctx.t("resetProgress"));
     resetArea.replaceChildren(h("span", {}, ctx.t("resetProgress")), reset);
     return reset;
   };
@@ -43,7 +44,7 @@ export function render(root, ctx) {
     ? h("ul", {}, CREDITS.map((c) => {
         const animal = getAnimal(c.animal);
         return h("li", {},
-          `${animal.emoji} ${ctx.localized(animal.name)}: “${c.title}” — ${c.author}. `,
+          animalArt(animal, "art credit-art"), `${ctx.localized(animal.name)}: “${c.title}” — ${c.author}. `,
           h("a", { href: c.source, target: "_blank", rel: "noopener" }, ctx.t("sourceLink")),
           " · ",
           h("a", { href: c.licenseUrl, target: "_blank", rel: "noopener" }, c.license));
@@ -53,13 +54,23 @@ export function render(root, ctx) {
   root.append(
     screen(
       h("div", { class: "topbar" }, backButton(ctx, "map")),
-      h("h1", { tabindex: "-1" }, `⚙️ ${ctx.t("settings")}`),
+      h("h1", { tabindex: "-1" }, icon("settings"), ctx.t("settings")),
       bruno(ctx, ctx.t("brunoSettings")),
       h("div", { class: "setting-row" }, h("span", {}, ctx.t("language")), languageToggle(ctx)),
       toggle("sfx", ctx.t("soundEffects")),
       toggle("voice", ctx.t("brunoVoice")),
       resetArea,
-      h("div", { class: "credits" }, h("h2", {}, ctx.t("credits")), credits),
+      h("div", { class: "credits" },
+        h("h2", {}, ctx.t("artwork")),
+        h("ul", {},
+          h("li", {}, `${ctx.t("artworkAnimals")}: `,
+            h("a", { href: "https://github.com/microsoft/fluentui-emoji", target: "_blank", rel: "noopener" }, "Microsoft Fluent Emoji"),
+            " · MIT"),
+          h("li", {}, `${ctx.t("artworkIcons")}: `,
+            h("a", { href: "https://phosphoricons.com/", target: "_blank", rel: "noopener" }, "Phosphor Icons"),
+            " · MIT")),
+        h("h2", {}, ctx.t("credits")),
+        credits),
     ),
   );
 }

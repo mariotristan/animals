@@ -1,0 +1,112 @@
+# Bruno's Zoo — Professional Art and Icons Design
+
+Date: 2026-10-10
+Status: Design approved in conversation; pending written-spec review
+Builds on: `docs/superpowers/specs/2026-10-10-bruno-zoo-design.md`
+
+## 1. Goal
+
+Make the game look professionally designed and identical on every device by replacing device
+emoji with bundled artwork:
+
+- **Animals and zones** use Microsoft **Fluent Emoji 3D** artwork (chosen over Fluent Flat,
+  Twemoji, and OpenMoji).
+- **Buttons** use flat **Phosphor** icons (fill weight) in the game's colors (chosen over 3D
+  emoji on buttons, which look muddy at small sizes).
+- **App icon** is the Fluent 3D lion on a warm orange glow (chosen over Bruno, a lion+elephant
+  scene, and today's paw print).
+
+Success: no device emoji in buttons, tiles, titles, stickers, or the gate; the game looks the
+same on iPad, Android, and Windows; everything still works offline; licenses are honored.
+
+## 2. Animal and zone art
+
+- 42 images: 36 animals + 6 zone icons, taken from the Fluent Emoji repository
+  (`microsoft/fluentui-emoji`, `assets/<Name>/3D/<name>_3d.png`, 256×256 PNG).
+- Stored as WebP (encoded with `cwebp`, quality ~80, 256×256) at `art/animals/<animal-id>.webp`
+  and `art/zones/<zone-id>.webp`. Each file must stay under 30 KB.
+- A dev-only script `scripts/fetch-art.sh` downloads and converts them; the mapping from game id
+  to Fluent asset name lives in the script. Re-running it reproduces the files.
+- Mapping (game id → Fluent asset):
+  lion→Lion, elephant→Elephant, zebra→Zebra, hippo→Hippopotamus, rhino→Rhinoceros,
+  giraffe→Giraffe, monkey→Monkey, gorilla→Gorilla, parrot→Parrot, tiger→Tiger, snake→Snake,
+  frog→Frog, dolphin→Dolphin, whale→Spouting whale, sea-lion→Seal, shark→Shark,
+  octopus→Octopus, sea-turtle→Turtle, polar-bear→Polar bear, penguin→Penguin,
+  arctic-wolf→Wolf, arctic-fox→Fox, reindeer→Deer, snowy-owl→Owl, cow→Cow, pig→Pig,
+  sheep→Ewe, horse→Horse, chicken→Chicken, duck→Duck, bear→Bear, raccoon→Raccoon,
+  squirrel→Chipmunk, beaver→Beaver, bee→Honeybee, wild-turkey→Turkey;
+  savanna→Sheaf of rice, jungle→Palm tree, ocean→Water wave, polar→Snowflake,
+  farm→Tractor, forest→Evergreen tree.
+  If an asset name does not exist in the repository, the closest Fluent asset is used and the
+  change is noted in the PR.
+- The art replaces emoji everywhere an animal or zone is shown: zone animal tiles, the explore
+  card's big picture, quiz choices, the True/False picture, sticker cards (unearned stickers keep
+  the dark silhouette effect via CSS filter), results stickers, map zone tiles, zone/quiz/sticker
+  titles, the gate's lion and elephant toppers, and the Settings credits list.
+- Images are decorative (`alt=""`); the buttons and cards that contain them keep their
+  localized `aria-label`s.
+- If an image fails to load, it is replaced by the animal's or zone's emoji, so nothing is ever
+  blank. The `emoji` fields in `js/data/animals.js` stay for this fallback.
+
+## 3. Button icons
+
+- `js/icons.js` exports `ICONS` (name → SVG path data from Phosphor's fill set, viewBox
+  `0 0 256 256`) and `icon(name)`, which returns an `<svg>` element using `currentColor`,
+  sized by CSS, `aria-hidden="true"`.
+- Icon names and where they're used: `back` (⬅️ back buttons), `stickers` (📒), `settings`
+  (⚙️), `sound` (🔊), `sayName` (🗣️), `close` (✖️), `enter` (▶️ gate), `playAgain` (🔁),
+  `map` (🗺️), `reset` (🗑️), `quiz` (❓), `lock` (🔒), `unlock` (🔓), `star` (⭐ filled),
+  `starEmpty` (☆), `thumbsUp` (👍), `thumbsDown` (👎), `celebrate` (🎉).
+- Buttons keep their current sizes (≥ 64 px targets) and `aria-label`s; icon color comes from
+  the button's text color (orange-button icons are white).
+- Star ratings (`starsText`) render as icons: filled gold stars and empty outline stars, with an
+  accessible label ("2 of 3 stars") on the container.
+- The 🇺🇸 / 🇪🇸 flag emoji become small hand-drawn SVG flags (simplified US flag; Spain's
+  red-yellow-red stripes without the coat of arms) in `js/icons.js`, because Windows renders
+  flag emoji as letters.
+- Emoji inside Bruno's spoken sentences (e.g. "Listen again 👂") stay as text; `speakable()`
+  already strips them from speech.
+
+## 4. App icon
+
+- New `icons/icon.svg`: warm orange radial gradient background (`#ffd27a` → `#ff8c42`), with the
+  Fluent 3D lion centered at ~64% of the width (inside the maskable safe zone).
+  The SVG references the lion via a relative image path (`../art/animals/lion.webp`) and is
+  only used as a source for `scripts/make-icons.sh`, which renders it to the existing
+  `icon-180.png`, `icon-192.png`, `icon-512.png`.
+- The browser-tab favicon switches from the lion-emoji data URI to `icons/icon-192.png`.
+- `CACHE` in `sw.js` is bumped because icon files change.
+
+## 5. Licensing and credits
+
+- Fluent Emoji and Phosphor Icons are both MIT licensed. Their license texts are committed as
+  `art/LICENSE-fluentui-emoji.txt` and `art/LICENSE-phosphor-icons.txt`.
+- `CREDITS.md` (generated by `scripts/credits-md.js`) gains an "Artwork" section naming both
+  projects, their URLs, and license. The in-game Settings credits gain the same short "Artwork"
+  section above the sound credits (new strings in en and es).
+
+## 6. Offline
+
+- All `art/**/*.webp` files and the license texts are added to `PRECACHE`; the existing PWA test
+  is extended so `art/` must be listed exactly like `css/`, `js/`, `sounds/`, and `icons/`
+  (license `.txt` files excluded from precache, like `icon.svg`). Adds roughly 0.5–1 MB.
+
+## 7. Testing
+
+Automated (`node --test`):
+- Every animal and zone has `art/<kind>/<id>.webp`, each file is a WebP under 30 KB.
+- `ICONS` contains every icon name in §3; `icon()` markup has no external references.
+- Screens and `ui.js` contain no button emoji from §3 (regression guard: a list of those code
+  points must not appear in `js/screens/*.js`, `js/ui.js`, `js/entrance.js`).
+- License files exist; CREDITS.md mentions both artwork projects.
+- PWA precache test covers `art/`.
+
+Manual (Playwright, attached to the PR): screenshots of Welcome, Map, a zone, an open animal
+card, each quiz question type, Results, Sticker Book (with silhouettes), and Settings at iPad
+landscape, iPad portrait, and phone sizes; a check that a broken image falls back to emoji; no
+console errors.
+
+## 8. Out of scope
+
+Redrawing Bruno or the scenery; animating the art; emoji inside Bruno's sentences; changing any
+game rules or text other than the new credit strings.

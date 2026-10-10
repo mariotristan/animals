@@ -60,7 +60,8 @@ test("service worker precaches exactly the game's files, all relative and presen
   assert.equal(new Set(precache).size, precache.length, "no duplicates");
   const expected = [
     "./", "index.html", "manifest.webmanifest",
-    ...["css", "js", "sounds", "icons"].flatMap(filesUnder).filter((f) => !f.endsWith(".svg")),
+    ...["css", "js", "sounds", "icons", "art"].flatMap(filesUnder)
+      .filter((f) => !f.endsWith(".svg") && !f.endsWith(".txt")),
   ].sort();
   assert.deepEqual([...precache].sort(), expected);
 });
@@ -74,4 +75,19 @@ test("parseRange handles the byte ranges Safari asks for", () => {
   assert.deepEqual(range("bytes=0-100", 10), { start: 0, end: 9 });
   assert.equal(range("bytes=20-", 10), null, "unsatisfiable");
   assert.equal(range("items=0-1", 10), null, "not a byte range");
+});
+
+test("the favicon is the app icon, not an emoji", () => {
+  const html = readFileSync("index.html", "utf8");
+  assert.match(html, /<link rel="icon" href="icons\/icon-192\.png"/);
+});
+
+test("pictures, sounds, and icons are served from the saved copy first", () => {
+  const run = loadServiceWorker();
+  for (const path of ["/animals/art/animals/lion.webp", "/animals/sounds/lion.mp3", "/animals/icons/icon-192.png"]) {
+    assert.equal(run(`isCacheFirst(${JSON.stringify(path)})`), true, path);
+  }
+  for (const path of ["/animals/", "/animals/index.html", "/animals/js/main.js", "/animals/css/style.css"]) {
+    assert.equal(run(`isCacheFirst(${JSON.stringify(path)})`), false, path);
+  }
 });

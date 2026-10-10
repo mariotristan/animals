@@ -36,3 +36,10 @@ Clips under CC BY-SA are shared under the same license.
 | 🐿️ Squirrel | `sounds/squirrel.mp3` | [Rodents - Eastern Gray Squirrel; Chatter, Close Perspective](https://freesound.org/people/TheKingOfGeeks360/sounds/852386/) | TheKingOfGeeks360 | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | 🐝 Bee | `sounds/bee.mp3` | [Hummel bee](https://commons.wikimedia.org/wiki/File:Hummel_bee.ogg) | soerena (PDSounds) | [Public domain](https://commons.wikimedia.org/wiki/File:Hummel_bee.ogg) |
 | 🦃 Wild turkey | `sounds/wild-turkey.mp3` | [Wild Turkey (Meleagris gallopavo) XC134155](https://commons.wikimedia.org/wiki/File:Meleagris_gallopavo_-_Wild_Turkey_XC134155.ogg) | Jonathon Jongsma | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) |
+
+# Artwork credits
+
+- Animal and zone pictures, and the app icon's lion: [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji)
+  (3D style), MIT License — see `art/LICENSE-fluentui-emoji.txt`. Converted to 256×256 WebP.
+- Button icons: [Phosphor Icons](https://phosphoricons.com/) 2.1.1, MIT License — see
+  `art/LICENSE-phosphor-icons.txt`.
