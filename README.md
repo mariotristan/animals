@@ -141,3 +141,13 @@ are deleted automatically.
 Animal sounds: see [CREDITS.md](CREDITS.md) (also listed in the game under Settings).
 Artwork: Microsoft Fluent Emoji (MIT) and Phosphor Icons (MIT); license texts in `art/`.
 Game code by mariotristan.
+
+## License
+
+The game's code is released under the [MIT License](LICENSE).
+
+Bundled media keep their own licenses:
+- Animal sounds: public domain, CC0, CC BY, or CC BY-SA, as listed per clip in [CREDITS.md](CREDITS.md).
+- Animal/zone pictures and the app icon's lion: Microsoft Fluent Emoji, MIT (`art/LICENSE-fluentui-emoji.txt`).
+- Button icons: Phosphor Icons, MIT (`art/LICENSE-phosphor-icons.txt`).
+
