@@ -1,6 +1,8 @@
 // Saves the game on the device so it keeps working offline once installed.
 // Bump CACHE whenever a picture, sound, or icon file changes so installed copies download it again.
-const CACHE = "bruno-zoo-v2";
+// Every game on mariotristan.github.io shares one Cache Storage: only ever touch our own caches.
+const CACHE_PREFIX = "bruno-zoo-";
+const CACHE = `${CACHE_PREFIX}v2`;
 
 // Every file the game needs. tests/pwa.test.js keeps this list in sync with the repo.
 const PRECACHE = [
@@ -115,7 +117,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key))))
+      .then((keys) => Promise.all(keys.filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE).map((key) => caches.delete(key))))
       .then(() => self.clients.claim()),
   );
 });
