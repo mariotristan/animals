@@ -91,3 +91,9 @@ test("pictures, sounds, and icons are served from the saved copy first", () => {
     assert.equal(run(`isCacheFirst(${JSON.stringify(path)})`), false, path);
   }
 });
+
+test("activation only deletes this game's old caches (other games share the origin)", () => {
+  const run = loadServiceWorker();
+  assert.ok(run("CACHE").startsWith(run("CACHE_PREFIX")));
+  assert.match(readFileSync("sw.js", "utf8"), /key\.startsWith\(CACHE_PREFIX\) && key !== CACHE/);
+});
